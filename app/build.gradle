@@ -5,11 +5,11 @@ android {
     compileSdkVersion 36
 
     defaultConfig {
-        applicationId "com.kooritea.fcmfix"
+        applicationId "com.kooritea.fcmfix.local"
         minSdkVersion 29
         targetSdkVersion 34
-        versionCode 53
-        versionName "dev"
+        versionCode 5301
+        versionName "53-b366825-local-hans-gmail-v1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

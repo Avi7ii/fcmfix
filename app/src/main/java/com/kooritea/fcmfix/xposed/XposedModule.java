@@ -113,7 +113,7 @@ public abstract class XposedModule {
     protected static void printLog(String text, Boolean isDiagnosticsLog) {
         Log.d(TAG, text);
         if (isDiagnosticsLog) {
-            Intent log = new Intent("com.kooritea.fcmfix.log");
+            Intent log = new Intent("com.kooritea.fcmfix.local.log");
             log.putExtra("text", "[" + getSelfPackageName() + "]" + text);
 
             try {
@@ -153,7 +153,7 @@ public abstract class XposedModule {
         if (config.get("init") == null) {
             this.checkUserDeviceUnlockAndUpdateConfig();
         }
-        if ("com.kooritea.fcmfix".equals(packageName)) {
+        if ("com.kooritea.fcmfix.local".equals(packageName)) {
             return true;
         }
         if (allowList != null) {
@@ -216,12 +216,12 @@ public abstract class XposedModule {
             isInitReceiver = true;
 
             IntentFilter updateConfigIntentFilter = new IntentFilter();
-            updateConfigIntentFilter.addAction("com.kooritea.fcmfix.update.config");
+            updateConfigIntentFilter.addAction("com.kooritea.fcmfix.local.update.config");
             if (Build.VERSION.SDK_INT >= 34) {
                 context.registerReceiver(new BroadcastReceiver() {
                     public void onReceive(Context context, Intent intent) {
                         String action = intent.getAction();
-                        if ("com.kooritea.fcmfix.update.config".equals(action)) {
+                        if ("com.kooritea.fcmfix.local.update.config".equals(action)) {
                             onUpdateConfig();
                         }
                     }
@@ -230,7 +230,7 @@ public abstract class XposedModule {
                 context.registerReceiver(new BroadcastReceiver() {
                     public void onReceive(Context context, Intent intent) {
                         String action = intent.getAction();
-                        if ("com.kooritea.fcmfix.update.config".equals(action)) {
+                        if ("com.kooritea.fcmfix.local.update.config".equals(action)) {
                             onUpdateConfig();
                         }
                     }
@@ -243,7 +243,7 @@ public abstract class XposedModule {
             context.registerReceiver(new BroadcastReceiver() {
                 public void onReceive(Context context, Intent intent) {
                     String action = intent.getAction();
-                    if (Intent.ACTION_PACKAGE_REMOVED.equals(action) && "com.kooritea.fcmfix".equals(intent.getData().getSchemeSpecificPart())) {
+                    if (Intent.ACTION_PACKAGE_REMOVED.equals(action) && "com.kooritea.fcmfix.local".equals(intent.getData().getSchemeSpecificPart())) {
                         Bundle extras = intent.getExtras();
                         if (extras.containsKey(Intent.EXTRA_REPLACING) && extras.getBoolean(Intent.EXTRA_REPLACING)) {
                             return;

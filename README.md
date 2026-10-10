@@ -1,3 +1,18 @@
+# FCMFix Local (Hans Gmail)
+
+基于 [kooritea/fcmfix](https://github.com/kooritea/fcmfix) 的 `b366825`，归档本地 ColorOS 16 / Gmail 实验版本。源码分支为 `local/coloros16-hans-gmail`。
+
+- [下载现成 APK 与 SHA-256 校验文件](https://github.com/Avi7ii/fcmfix/releases/tag/v53-local-hans-gmail-v1)
+- [版本、签名及安装说明](releases/v53-local-hans-gmail-v1/BUILD-INFO.md)
+
+包名为 `com.kooritea.fcmfix.local`，可与官方版共存；两者的设置互不共享。保留上游原有逻辑，仅新增对白名单中 Gmail 的 `gmail-ls` 同步任务的定向 Hans 放行，不增加后台保活服务。
+
+这是实验版归档，不是此次通知延迟问题的修复版本。2026-10-10 在重做 KSU / LSPosed 环境后发现本地模块远程配置缺失，漏通知与延迟的完整原因仍待确认；不能据早期成功来信测试保证长期稳定性。
+
+以下保留上游说明。
+
+---
+
 # fcmfix(Android 10-15 )
 
 [![Android CI](https://github.com/kooritea/fcmfix/workflows/Android%20CI/badge.svg)](https://github.com/kooritea/fcmfix/actions)

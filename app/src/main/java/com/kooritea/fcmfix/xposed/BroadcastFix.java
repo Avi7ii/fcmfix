@@ -42,7 +42,22 @@ public class BroadcastFix extends XposedModule {
         int intent_args_index = 0;
         int appOp_args_index = 0;
         if(Build.VERSION.SDK_INT >= 35){
-            targetMethod = XposedUtils.tryFindMethodMostParam(classLoader,"com.android.server.am.BroadcastController","broadcastIntentLocked");
+            if(Build.VERSION.SDK_INT == 36){
+                // HMA-OSS replaces the outer method's ART entry point. Hook the
+                // inner dispatch instead, keeping HMA's USB/ADB handling intact.
+                Method tracedMethod = XposedUtils.tryFindMethodMostParam(classLoader,"com.android.server.am.BroadcastController","broadcastIntentLockedTraced");
+                if(tracedMethod != null){
+                    Class<?>[] types = tracedMethod.getParameterTypes();
+                    if(types.length == 26 && types[3] == Intent.class && types[13] == int.class
+                            && "android.app.BroadcastOptions".equals(types[14].getName())
+                            && tracedMethod.getReturnType() == int.class){
+                        targetMethod = tracedMethod;
+                    }
+                }
+            }
+            if(targetMethod == null){
+                targetMethod = XposedUtils.tryFindMethodMostParam(classLoader,"com.android.server.am.BroadcastController","broadcastIntentLocked");
+            }
             if(targetMethod != null){
                 if(Build.VERSION.SDK_INT >= 35){
                     intent_args_index = 3;
@@ -122,7 +137,7 @@ public class BroadcastFix extends XposedModule {
         printLog("Android API: " + Build.VERSION.SDK_INT);
         printLog("appOp_args_index: " + appOp_args_index);
         printLog("intent_args_index: " + intent_args_index);
-        printLog("hook target: " + method.getDeclaringClass().getName());
+        printLog("hook target: " + method.getDeclaringClass().getName() + "#" + method.getName());
         final int finalIntent_args_index = intent_args_index;
         final int finalAppOp_args_index = appOp_args_index;
 

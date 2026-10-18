@@ -42,7 +42,7 @@ public class BroadcastFix extends XposedModule {
         int intent_args_index = 0;
         int appOp_args_index = 0;
         if(Build.VERSION.SDK_INT >= 35){
-            if(Build.VERSION.SDK_INT == 36){
+            if(Build.VERSION.SDK_INT == 36 || Build.VERSION.SDK_INT == 37){
                 // HMA-OSS replaces the outer method's ART entry point. Hook the
                 // inner dispatch instead, keeping HMA's USB/ADB handling intact.
                 Method tracedMethod = XposedUtils.tryFindMethodMostParam(classLoader,"com.android.server.am.BroadcastController","broadcastIntentLockedTraced");

@@ -61,11 +61,15 @@ public class BroadcastHookSelectionTest {
             for (Method m : fixtures.getDeclaredMethods()) methods.put(m.getName(), m);
             utils.getField("outer").set(null, methods.get("outer"));
             Object[][] cases = {
-                {36, "valid", "valid"}, {35, "valid", "outer"}, {37, "valid", "outer"},
+                {36, "valid", "valid"}, {35, "valid", "outer"}, {37, "valid", "valid"},
+                {38, "valid", "outer"},
                 {34, "valid", "outer"}, {36, null, "outer"},
                 {36, "wrongArity", "outer"}, {36, "wrongIntent", "outer"},
                 {36, "wrongAppOp", "outer"}, {36, "wrongOptions", "outer"},
-                {36, "wrongReturn", "outer"}
+                {36, "wrongReturn", "outer"},
+                {37, null, "outer"}, {37, "wrongArity", "outer"},
+                {37, "wrongIntent", "outer"}, {37, "wrongAppOp", "outer"},
+                {37, "wrongOptions", "outer"}, {37, "wrongReturn", "outer"}
             };
             for (Object[] test : cases) {
                 sdk.getField("SDK_INT").setInt(null, (int)test[0]);
